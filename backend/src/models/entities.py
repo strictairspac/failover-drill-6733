@@ -37,6 +37,14 @@ class Drill(Base):
     snapshot: Mapped[dict] = mapped_column(JSON)
     result: Mapped[dict | None] = mapped_column(JSON, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
+class Stream(Base):
+    __tablename__ = 'streams'
+    id: Mapped[int] = mapped_column(primary_key=True)
+    name: Mapped[str] = mapped_column(String(100), unique=True)
+    scenario_id: Mapped[int] = mapped_column(ForeignKey('scenarios.id'))
+    phase: Mapped[str] = mapped_column(String(20), default='streaming')
+    state: Mapped[dict] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=now)
 class Audit(Base):
     __tablename__ = 'audits'
     id: Mapped[int] = mapped_column(primary_key=True)
